@@ -1,42 +1,46 @@
 --[[ Protected by Lua Guard ]]
 
-( function (...) local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))() local AutoCandyRunning = false local AntiFlingEnabled = false local AutoFlingAfterEnabled = false local TweenSpeed = 0x15 local EspMurderEnabled = false local EspSheriffEnabled = false local EspInnocentEnabled = false local RunService = game:GetService("RunService") local Players = game:GetService("Players") local TweenService = game:GetService("TweenService") local LocalPlayer = Players.LocalPlayer local Window = Fluent:CreateWindow({ Title = "Auto Candy", SubTitle = "Dracosw - MM2 Halloween", TabWidth = 0xA0, Size = UDim2.fromOffset(0x244, 0x1A4), Theme = "Darker", MinimizeKey = Enum.KeyCode.RightControl }) local Tabs = { Main = Window:AddTab({ Title = "Farm Halloween" }), Visuals = Window:AddTab({ Title = "Visuais" }) } local ToggleCandy = Tabs.Main:AddToggle("AutoCandyToggle", { Title = "Auto Candy", Default = false }) local ToggleFling = Tabs.Main:AddToggle("AntiFlingToggle", { Title = "Anti Fling", Default = false }) local ToggleAutoFlingAfter = Tabs.Main:AddToggle("AutoFlingAfterToggle", { Title = "Auto Fling (Apos Candy / Morte)", Description = "Da fling no Murderer por 10s ao morrer ou quando o auto candy acabar", Default = false }) ToggleFling:OnChanged( function (Value) AntiFlingEnabled = Value end
+local Fluent = loadstring(game:HttpGet("\104\116\116\112\115\058\047\047\103\105\116\104\117\098\046\099\111\109\047\100\097\119\105\100\045\115\099\114\105\112\116\115\047\070\108\117\101\110\116\047\114\101\108\101\097\115\101\115\047\108\097\116\101\115\116\047\100\111\119\110\108\111\097\100\047\109\097\105\110\046\108\117\097"))() local AutoCandyRunning = false local AntiFlingEnabled = false local AutoFlingAfterEnabled = false local TweenSpeed = 0x15 local EspMurderEnabled = false local EspSheriffEnabled = false local EspInnocentEnabled = false local RunService = game:GetService("\082\117\110\083\101\114\118\105\099\101") local Players = game:GetService("\080\108\097\121\101\114\115") local TweenService = game:GetService("\084\119\101\101\110\083\101\114\118\105\099\101") local LocalPlayer = Players.LocalPlayer local Window = Fluent:CreateWindow({ Title = "\065\117\116\111\032\067\097\110\100\121", SubTitle = "\032\068\114\097\099\111\115\119\032\045\032\077\077\050\032\072\097\108\108\111\119\101\101\110", TabWidth = 0xA0, Size = UDim2.fromOffset(0x244, 0x1A4), Theme = "\068\097\114\107\101\114", MinimizeKey = Enum.KeyCode.RightControl }) local Tabs = { Main = Window:AddTab({ Title = "\070\097\114\109\032\072\097\108\108\111\119\101\101\110" }), Visuals = Window:AddTab({ Title = "\086\105\115\117\097\105\115" }) } local ToggleCandy = Tabs.Main:AddToggle("\065\117\116\111\067\097\110\100\121\084\111\103\103\108\101", { Title = "\065\117\116\111\032\067\097\110\100\121", Default = false }) local ToggleFling = Tabs.Main:AddToggle("\065\110\116\105\070\108\105\110\103\084\111\103\103\108\101", { Title = "\065\110\116\105\032\070\108\105\110\103", Default = false }) local ToggleAutoFlingAfter = Tabs.Main:AddToggle("\065\117\116\111\070\108\105\110\103\065\102\116\101\114\084\111\103\103\108\101", { Title = "\065\117\116\111\032\070\108\105\110\103\032\040\065\112\111\115\032\067\097\110\100\121\032\047\032\077\111\114\116\101\041", Description = "\068\097\032\102\108\105\110\103\032\110\111\032\077\117\114\100\101\114\101\114\032\112\111\114\032\049\048\115\032\097\111\032\109\111\114\114\101\114\032\111\117\032\113\117\097\110\100\111\032\111\032\097\117\116\111\032\099\097\110\100\121\032\097\099\097\098\097\114", Default = false }) ToggleFling:OnChanged( function (Value) AntiFlingEnabled = Value end
  ) ToggleAutoFlingAfter:OnChanged( function (Value) AutoFlingAfterEnabled = Value end
- ) local function GetMurdererPlayer() for _, player in pairs(Players:GetPlayers()) do if player ~= LocalPlayer then local character = player.Character if (player:FindFirstChild("Backpack") and player.Backpack:FindFirstChild("Knife")) or (character and character:FindFirstChild("Knife")) then return player end
+ ) local function GetMurdererPlayer() for _, player in pairs(Players:GetPlayers()) do if player ~= LocalPlayer then local character = player.Character if (player:FindFirstChild("\066\097\099\107\112\097\099\107") and player.Backpack:FindFirstChild("\075\110\105\102\101")) or (character and character:FindFirstChild("\075\110\105\102\101")) then return player end
  end
  end
  return nil end
+ local function CheckBagFullOrEmpty() local isFull = false pcall( function () local leaderstats = LocalPlayer:FindFirstChild("\108\101\097\100\101\114\115\116\097\116\115") if leaderstats then local candiesStat = leaderstats:FindFirstChild("\067\097\110\100\105\101\115") or leaderstats:FindFirstChild("\068\111\099\101\115") or leaderstats:FindFirstChild("\067\111\105\110\115") if candiesStat and candiesStat.Value >= 0x32 then isFull = true end
+ end
+ end
+ ) return isFull end
  local isFlinging = false local function TriggerAutoFling() if isFlinging or not AutoFlingAfterEnabled then return end
  isFlinging = true task.spawn( function () local startTime = tick() local connection connection = RunService.Heartbeat:Connect( function () if tick() - startTime >= 0xA then if connection then connection:Disconnect() end
  isFlinging = false return end
- local murder = GetMurdererPlayer() if murder and murder.Character and murder.Character:FindFirstChild("HumanoidRootPart") then local character = LocalPlayer.Character if character and character:FindFirstChild("HumanoidRootPart") then local rootPart = character.HumanoidRootPart local targetRoot = murder.Character.HumanoidRootPart local velocity = targetRoot.AssemblyLinearVelocity local targetCFrame = targetRoot.CFrame if velocity.Magnitude > 0.1 then targetCFrame = targetCFrame + (velocity * 0.15) end
+ local murder = GetMurdererPlayer() if murder and murder.Character and murder.Character:FindFirstChild("\072\117\109\097\110\111\105\100\082\111\111\116\080\097\114\116") then local character = LocalPlayer.Character if character and character:FindFirstChild("\072\117\109\097\110\111\105\100\082\111\111\116\080\097\114\116") then local rootPart = character.HumanoidRootPart local targetRoot = murder.Character.HumanoidRootPart local velocity = targetRoot.AssemblyLinearVelocity local targetCFrame = targetRoot.CFrame if velocity.Magnitude > 0.1 then targetCFrame = targetCFrame + (velocity.Unit * 0x4) end
  rootPart.CFrame = targetCFrame * CFrame.new(math.random(-0x1, 0x1), 0x0, math.random(-0x1, 0x1)) rootPart.AssemblyLinearVelocity = Vector3.new(0x9C40, 0x9C40, 0x9C40) rootPart.AssemblyAngularVelocity = Vector3.new(0x1869F, 0x1869F, 0x1869F) end
  end
  end
  ) end
  ) end
- LocalPlayer.CharacterAdded:Connect( function (character) local humanoid = character:WaitForChild("Humanoid", 0x5) if humanoid then humanoid.Died:Connect( function () if AutoCandyRunning or AutoFlingAfterEnabled then TriggerAutoFling() end
+ LocalPlayer.CharacterAdded:Connect( function (character) local humanoid = character:WaitForChild("\072\117\109\097\110\111\105\100", 0x5) if humanoid then humanoid.Died:Connect( function () if AutoCandyRunning or AutoFlingAfterEnabled then TriggerAutoFling() end
  end
  ) end
  end
- ) if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Humanoid") then LocalPlayer.Character.Humanoid.Died:Connect( function () if AutoCandyRunning or AutoFlingAfterEnabled then TriggerAutoFling() end
+ ) if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("\072\117\109\097\110\111\105\100") then LocalPlayer.Character.Humanoid.Died:Connect( function () if AutoCandyRunning or AutoFlingAfterEnabled then TriggerAutoFling() end
  end
  ) end
  ToggleCandy:OnChanged( function (Value) AutoCandyRunning = Value if Value then AntiFlingEnabled = true else AntiFlingEnabled = ToggleFling.Value end
  end
- ) local Slider = Tabs.Main:AddSlider("SpeedSlider", { Title = "Velocidade do Tween", Description = "Recomendado: 20-31", Default = 0x15, Min = 0x5, Max = 0x32, Rounding = 0x0, Callback = function (Value) TweenSpeed = Value end
- }) Tabs.Visuals:AddToggle("EspMurderToggle", { Title = "Esp Murder", Default = false, Callback = function (Value) EspMurderEnabled = Value end
- }) Tabs.Visuals:AddToggle("EspSheriffToggle", { Title = "Esp Sheriff", Default = false, Callback = function (Value) EspSheriffEnabled = Value end
- }) Tabs.Visuals:AddToggle("EspInnocentToggle", { Title = "Esp Innocents", Default = false, Callback = function (Value) EspInnocentEnabled = Value end
- }) local function GetPlayerRole(player) local character = player.Character if not character then return "Innocent" end
- if player:FindFirstChild("Backpack") and player.Backpack:FindFirstChild("Knife") then return "Murderer" end
- if character:FindFirstChild("Knife") then return "Murderer" end
- if player:FindFirstChild("Backpack") and player.Backpack:FindFirstChild("Gun") then return "Sheriff" end
- if character:FindFirstChild("Gun") then return "Sheriff" end
- return "Innocent" end
+ ) local Slider = Tabs.Main:AddSlider("\083\112\101\101\100\083\108\105\100\101\114", { Title = "\086\101\108\111\099\105\100\097\100\101\032\100\111\032\084\119\101\101\110", Description = "\082\101\099\111\109\101\110\100\097\100\111\058\032\050\048\045\051\048", Default = 0x15, Min = 0x5, Max = 0x32, Rounding = 0x0, Callback = function (Value) TweenSpeed = Value end
+ }) Tabs.Visuals:AddToggle("\069\115\112\077\117\114\100\101\114\084\111\103\103\108\101", { Title = "\069\115\112\032\077\117\114\100\101\114", Default = false, Callback = function (Value) EspMurderEnabled = Value end
+ }) Tabs.Visuals:AddToggle("\069\115\112\083\104\101\114\105\102\102\084\111\103\103\108\101", { Title = "\069\115\112\032\083\104\101\114\105\102\102", Default = false, Callback = function (Value) EspSheriffEnabled = Value end
+ }) Tabs.Visuals:AddToggle("\069\115\112\073\110\110\111\099\101\110\116\084\111\103\103\108\101", { Title = "\069\115\112\032\073\110\110\111\099\101\110\116\115", Default = false, Callback = function (Value) EspInnocentEnabled = Value end
+ }) local function GetPlayerRole(player) local character = player.Character if not character then return "\073\110\110\111\099\101\110\116" end
+ if player:FindFirstChild("\066\097\099\107\112\097\099\107") and player.Backpack:FindFirstChild("\075\110\105\102\101") then return "\077\117\114\100\101\114\101\114" end
+ if character:FindFirstChild("\075\110\105\102\101") then return "\077\117\114\100\101\114\101\114" end
+ if player:FindFirstChild("\066\097\099\107\112\097\099\107") and player.Backpack:FindFirstChild("\071\117\110") then return "\083\104\101\114\105\102\102" end
+ if character:FindFirstChild("\071\117\110") then return "\083\104\101\114\105\102\102" end
+ return "\073\110\110\111\099\101\110\116" end
  local function ApplyHighlight(player, role) if not player.Character then return end
- local highlight = player.Character:FindFirstChild("DracoswESP") local shouldShow = false local color = Color3.fromRGB(0xFF, 0xFF, 0xFF) if role == "Murderer" and EspMurderEnabled then shouldShow = true color = Color3.fromRGB(0xFF, 0x0, 0x0) elseif role == "Sheriff" and EspSheriffEnabled then shouldShow = true color = Color3.fromRGB(0x0, 0x64, 0xFF) elseif role == "Innocent" and EspInnocentEnabled then shouldShow = true color = Color3.fromRGB(0x0, 0xFF, 0x0) end
- if shouldShow then if not highlight then highlight = Instance.new("Highlight") highlight.Name = "DracoswESP" highlight.Parent = player.Character end
+ local highlight = player.Character:FindFirstChild("\068\114\097\099\111\115\119\069\083\080") local shouldShow = false local color = Color3.fromRGB(0xFF, 0xFF, 0xFF) if role == "\077\117\114\100\101\114\101\114" and EspMurderEnabled then shouldShow = true color = Color3.fromRGB(0xFF, 0x0, 0x0) elseif role == "\083\104\101\114\105\102\102" and EspSheriffEnabled then shouldShow = true color = Color3.fromRGB(0x0, 0x64, 0xFF) elseif role == "\073\110\110\111\099\101\110\116" and EspInnocentEnabled then shouldShow = true color = Color3.fromRGB(0x0, 0xFF, 0x0) end
+ if shouldShow then if not highlight then highlight = Instance.new("\072\105\103\104\108\105\103\104\116") highlight.Name = "\068\114\097\099\111\115\119\069\083\080" highlight.Parent = player.Character end
  highlight.FillColor = color highlight.OutlineColor = Color3.fromRGB(0xFF, 0xFF, 0xFF) highlight.FillTransparency = 0.5 highlight.OutlineTransparency = 0x0 highlight.Enabled = true else if highlight then highlight.Enabled = false end
  end
  end
@@ -46,42 +50,37 @@
  task.wait(0.5) end
  end
  ) local lastFlingCheck = 0x0 RunService.Heartbeat:Connect( function () if not AntiFlingEnabled and not AutoCandyRunning then return end
- local now = tick() if now - lastFlingCheck >= 0.2 then lastFlingCheck = now if AntiFlingEnabled then for _, otherPlayer in pairs(Players:GetPlayers()) do if otherPlayer ~= LocalPlayer and otherPlayer.Character then for _, part in pairs(otherPlayer.Character:GetDescendants()) do if part:IsA("BasePart") and part.CanCollide then part.CanCollide = false end
+ local now = tick() if now - lastFlingCheck >= 0.2 then lastFlingCheck = now if AntiFlingEnabled then for _, otherPlayer in pairs(Players:GetPlayers()) do if otherPlayer ~= LocalPlayer and otherPlayer.Character then for _, part in pairs(otherPlayer.Character:GetDescendants()) do if part:IsA("\066\097\115\101\080\097\114\116") and part.CanCollide then part.CanCollide = false end
  end
  end
  end
  end
- if AutoCandyRunning and LocalPlayer.Character then for _, part in pairs(LocalPlayer.Character:GetDescendants()) do if part:IsA("BasePart") and part.CanCollide then part.CanCollide = false end
+ if AutoCandyRunning and LocalPlayer.Character then for _, part in pairs(LocalPlayer.Character:GetDescendants()) do if part:IsA("\066\097\115\101\080\097\114\116") and part.CanCollide then part.CanCollide = false end
  end
  end
  end
  end
  ) local function IsRealCandy(part) if not part or not part.Parent or not part:IsDescendantOf(workspace) then return false end
- if part:IsA("BasePart") then if part.Transparency >= 0x1 or not part.CanTouch then return false end
+ if part:IsA("\066\097\115\101\080\097\114\116") then if part.Transparency >= 0x1 or not part.CanTouch then return false end
  end
  return true end
- local function TeleportToCandy(targetPart) local character = LocalPlayer.Character if not character or not character:FindFirstChild("HumanoidRootPart") then return end
+ local function TeleportToCandy(targetPart) local character = LocalPlayer.Character if not character or not character:FindFirstChild("\072\117\109\097\110\111\105\100\082\111\111\116\080\097\114\116") then return end
  local rootPart = character.HumanoidRootPart if not IsRealCandy(targetPart) then return end
  local distance = (rootPart.Position - targetPart.Position).Magnitude local timeToTravel = distance / TweenSpeed local centerPosition = CFrame.new(targetPart.Position) local tweenInfo = TweenInfo.new(timeToTravel, Enum.EasingStyle.Linear) local tween = TweenService:Create(rootPart, tweenInfo, {CFrame = centerPosition}) tween:Play() while AutoCandyRunning and IsRealCandy(targetPart) do local currentDist = (rootPart.Position - targetPart.Position).Magnitude if currentDist <= 0.2 then break end
  task.wait() end
  tween:Cancel() end
- local function GetClosestCandies() local character = LocalPlayer.Character if not character or not character:FindFirstChild("HumanoidRootPart") then return {} end
- local rootPart = character.HumanoidRootPart local candyList = {} local container = workspace:FindFirstChild("Normal") or workspace for _, obj in pairs(container:GetDescendants()) do local nameLower = obj.Name:lower() if nameLower:find("candy") or nameLower:find("coin") then local targetPart = nil if obj:IsA("BasePart") then targetPart = obj elseif obj:IsA("Model") then targetPart = obj.PrimaryPart or obj:FindFirstChildWhichIsA("BasePart") end
+ local function GetClosestCandies() local character = LocalPlayer.Character if not character or not character:FindFirstChild("\072\117\109\097\110\111\105\100\082\111\111\116\080\097\114\116") then return {} end
+ local rootPart = character.HumanoidRootPart local candyList = {} local container = workspace:FindFirstChild("\078\111\114\109\097\108") or workspace for _, obj in pairs(container:GetDescendants()) do local nameLower = obj.Name:lower() if nameLower:find("\099\097\110\100\121") or nameLower:find("\099\111\105\110") then local targetPart = nil if obj:IsA("\066\097\115\101\080\097\114\116") then targetPart = obj elseif obj:IsA("\077\111\100\101\108") then targetPart = obj.PrimaryPart or obj:FindFirstChildWhichIsA("\066\097\115\101\080\097\114\116") end
  if IsRealCandy(targetPart) then local dist = (rootPart.Position - targetPart.Position).Magnitude table.insert(candyList, {Part = targetPart, Distance = dist}) end
  end
  end
  table.sort(candyList, function (a, b) return a.Distance < b.Distance end
  ) return candyList end
- local function CheckBagFullOrEmpty() pcall( function () local leaderstats = LocalPlayer:FindFirstChild("leaderstats") if leaderstats then local candiesStat = leaderstats:FindFirstChild("Candies") or leaderstats:FindFirstChild("Doces") or leaderstats:FindFirstChild("Coins") if candiesStat and candiesStat.Value >= 0x32 then return true end
- end
- end
- ) return false end
  local triggeredFlingForEvent = false task.spawn( function () while true do if AutoCandyRunning then local bagFull = CheckBagFullOrEmpty() local candyList = GetClosestCandies() if bagFull or #candyList == 0x0 then if not triggeredFlingForEvent then triggeredFlingForEvent = true TriggerAutoFling() end
  else triggeredFlingForEvent = false local closest = candyList[0x1] if IsRealCandy(closest.Part) then TeleportToCandy(closest.Part) end
  end
  task.wait(0.05) else triggeredFlingForEvent = false task.wait(0.3) end
  end
  end
- ) local CoreGui = game:GetService("CoreGui") local FloatingGui = Instance.new("ScreenGui") FloatingGui.Name = "AutoCandyFloatingButton" FloatingGui.Parent = CoreGui FloatingGui.IgnoreGuiInset = true local CircleButton = Instance.new("TextButton") CircleButton.Name = "ToggleButton" CircleButton.Size = UDim2.new(0x0, 0x34, 0x0, 0x34) CircleButton.Position = UDim2.new(0x0, 0x19, 0x0, 0xDC) CircleButton.BackgroundColor3 = Color3.fromRGB(0x12, 0x12, 0x12) CircleButton.Text = "" CircleButton.Active = true CircleButton.Draggable = true CircleButton.Parent = FloatingGui local UICorner = Instance.new("UICorner") UICorner.CornerRadius = UDim.new(0x1, 0x0) UICorner.Parent = CircleButton local UIStroke = Instance.new("UIStroke") UIStroke.Color = Color3.fromRGB(0x50, 0x50, 0x50) UIStroke.Thickness = 0x2 UIStroke.Parent = CircleButton local ButtonImage = Instance.new("ImageLabel") ButtonImage.Name = "ButtonImage" ButtonImage.Size = UDim2.new(0x1, 0x0, 0x1, 0x0) ButtonImage.Position = UDim2.new(0x0, 0x0, 0x0, 0x0) ButtonImage.BackgroundTransparency = 0x1 ButtonImage.Image = "rbxassetid://81015096581028" ButtonImage.Parent = CircleButton local ImageCorner = Instance.new("UICorner") ImageCorner.CornerRadius = UDim.new(0x1, 0x0) ImageCorner.Parent = ButtonImage CircleButton.MouseButton1Click:Connect( function () Window:Minimize() end
- ) Window:SelectTab(0x1) end
- )(...)
+ ) local CoreGui = game:GetService("\067\111\114\101\071\117\105") local FloatingGui = Instance.new("\083\099\114\101\101\110\071\117\105") FloatingGui.Name = "\065\117\116\111\067\097\110\100\121\070\108\111\097\116\105\110\103\066\117\116\116\111\110" FloatingGui.Parent = CoreGui FloatingGui.IgnoreGuiInset = true local CircleButton = Instance.new("\084\101\120\116\066\117\116\116\111\110") CircleButton.Name = "\084\111\103\103\108\101\066\117\116\116\111\110" CircleButton.Size = UDim2.new(0x0, 0x34, 0x0, 0x34) CircleButton.Position = UDim2.new(0x0, 0x19, 0x0, 0xDC) CircleButton.BackgroundColor3 = Color3.fromRGB(0x12, 0x12, 0x12) CircleButton.Text = "" CircleButton.Active = true CircleButton.Draggable = true CircleButton.Parent = FloatingGui local UICorner = Instance.new("\085\073\067\111\114\110\101\114") UICorner.CornerRadius = UDim.new(0x1, 0x0) UICorner.Parent = CircleButton local UIStroke = Instance.new("\085\073\083\116\114\111\107\101") UIStroke.Color = Color3.fromRGB(0x50, 0x50, 0x50) UIStroke.Thickness = 0x2 UIStroke.Parent = CircleButton local ButtonImage = Instance.new("\073\109\097\103\101\076\097\098\101\108") ButtonImage.Name = "\066\117\116\116\111\110\073\109\097\103\101" ButtonImage.Size = UDim2.new(0x1, 0x0, 0x1, 0x0) ButtonImage.Position = UDim2.new(0x0, 0x0, 0x0, 0x0) ButtonImage.BackgroundTransparency = 0x1 ButtonImage.Image = "\114\098\120\097\115\115\101\116\105\100\058\047\047\056\049\048\049\053\048\057\054\053\056\049\048\050\056" ButtonImage.Parent = CircleButton local ImageCorner = Instance.new("\085\073\067\111\114\110\101\114") ImageCorner.CornerRadius = UDim.new(0x1, 0x0) ImageCorner.Parent = ButtonImage CircleButton.MouseButton1Click:Connect( function () Window:Minimize() end
+ ) Window:SelectTab(0x1)
