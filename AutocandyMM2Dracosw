@@ -1,86 +1,102 @@
 --[[ Protected by Lua Guard ]]
 
-local Fluent = loadstring(game:HttpGet("\104\116\116\112\115\058\047\047\103\105\116\104\117\098\046\099\111\109\047\100\097\119\105\100\045\115\099\114\105\112\116\115\047\070\108\117\101\110\116\047\114\101\108\101\097\115\101\115\047\108\097\116\101\115\116\047\100\111\119\110\108\111\097\100\047\109\097\105\110\046\108\117\097"))() local AutoCandyRunning = false local AntiFlingEnabled = false local AutoFlingAfterEnabled = false local TweenSpeed = 0x15 local EspMurderEnabled = false local EspSheriffEnabled = false local EspInnocentEnabled = false local RunService = game:GetService("\082\117\110\083\101\114\118\105\099\101") local Players = game:GetService("\080\108\097\121\101\114\115") local TweenService = game:GetService("\084\119\101\101\110\083\101\114\118\105\099\101") local LocalPlayer = Players.LocalPlayer local Window = Fluent:CreateWindow({ Title = "\065\117\116\111\032\067\097\110\100\121", SubTitle = "\032\068\114\097\099\111\115\119\032\045\032\077\077\050\032\072\097\108\108\111\119\101\101\110", TabWidth = 0xA0, Size = UDim2.fromOffset(0x244, 0x1A4), Theme = "\068\097\114\107\101\114", MinimizeKey = Enum.KeyCode.RightControl }) local Tabs = { Main = Window:AddTab({ Title = "\070\097\114\109\032\072\097\108\108\111\119\101\101\110" }), Visuals = Window:AddTab({ Title = "\086\105\115\117\097\105\115" }) } local ToggleCandy = Tabs.Main:AddToggle("\065\117\116\111\067\097\110\100\121\084\111\103\103\108\101", { Title = "\065\117\116\111\032\067\097\110\100\121", Default = false }) local ToggleFling = Tabs.Main:AddToggle("\065\110\116\105\070\108\105\110\103\084\111\103\103\108\101", { Title = "\065\110\116\105\032\070\108\105\110\103", Default = false }) local ToggleAutoFlingAfter = Tabs.Main:AddToggle("\065\117\116\111\070\108\105\110\103\065\102\116\101\114\084\111\103\103\108\101", { Title = "\065\117\116\111\032\070\108\105\110\103\032\040\065\112\111\115\032\067\097\110\100\121\032\047\032\077\111\114\116\101\041", Description = "\068\097\032\102\108\105\110\103\032\110\111\032\077\117\114\100\101\114\101\114\032\112\111\114\032\049\048\115\032\097\111\032\109\111\114\114\101\114\032\111\117\032\113\117\097\110\100\111\032\111\032\097\117\116\111\032\099\097\110\100\121\032\097\099\097\098\097\114", Default = false }) ToggleFling:OnChanged( function (Value) AntiFlingEnabled = Value end
- ) ToggleAutoFlingAfter:OnChanged( function (Value) AutoFlingAfterEnabled = Value end
- ) local function GetMurdererPlayer() for _, player in pairs(Players:GetPlayers()) do if player ~= LocalPlayer then local character = player.Character if (player:FindFirstChild("\066\097\099\107\112\097\099\107") and player.Backpack:FindFirstChild("\075\110\105\102\101")) or (character and character:FindFirstChild("\075\110\105\102\101")) then return player end
+( function (...) local _IIlIlIIlII = loadstring(game:HttpGet("\104\116\116\112\115\058\047\047\103\105\116\104\117\098\046\099\111\109\047\100\097\119\105\100\045\115\099\114\105\112\116\115\047\070\108\117\101\110\116\047\114\101\108\101\097\115\101\115\047\108\097\116\101\115\116\047\100\111\119\110\108\111\097\100\047\109\097\105\110\046\108\117\097"))() local _IlllIIllll = false local _IIlllIlIII = false local _IIllllIIll = false local _lllIlIlIlI = 21 local _IIlIIlllIl = false local _IIlllIlIlI = false local _lIlIlllIll = false local RunService = game:GetService("\082\117\110\083\101\114\118\105\099\101") local Players = game:GetService("\080\108\097\121\101\114\115") local TweenService = game:GetService("\084\119\101\101\110\083\101\114\118\105\099\101") local _IlIllllIII = Players.LocalPlayer local _IllllIlIlI = _IIlIlIIlII:CreateWindow({ Title = "\065\117\116\111\032\067\097\110\100\121", SubTitle = "\068\114\097\099\111\115\119\032\045\032\077\077\050\032\072\097\108\108\111\119\101\101\110", TabWidth = 160, Size = UDim2.fromOffset(580, 420), Theme = "\068\097\114\107\101\114", MinimizeKey = Enum.KeyCode.RightControl }) local _IIlllIIllI = { Main = _IllllIlIlI:AddTab({ Title = "\070\097\114\109\032\072\097\108\108\111\119\101\101\110" }), Visuals = _IllllIlIlI:AddTab({ Title = "\086\105\115\117\097\105\115" }) } local _lIllIIIlII = _IIlllIIllI.Main:AddToggle("\065\117\116\111\067\097\110\100\121\084\111\103\103\108\101", { Title = "\065\117\116\111\032\067\097\110\100\121", Default = false }) local _lllllIllll = _IIlllIIllI.Main:AddToggle("\065\110\116\105\070\108\105\110\103\084\111\103\103\108\101", { Title = "\065\110\116\105\032\070\108\105\110\103", Default = false }) local _IlllIIllII = _IIlllIIllI.Main:AddToggle("\065\117\116\111\070\108\105\110\103\065\102\116\101\114\084\111\103\103\108\101", { Title = "\065\117\116\111\032\070\108\105\110\103\032\040\065\112\111\115\032\067\097\110\100\121\032\047\032\077\111\114\116\101\041", Description = "\068\097\032\102\108\105\110\103\032\110\111\032\077\117\114\100\101\114\101\114\032\112\111\114\032\049\048\115\032\097\111\032\109\111\114\114\101\114\032\111\117\032\113\117\097\110\100\111\032\111\032\097\117\116\111\032\099\097\110\100\121\032\097\099\097\098\097\114", Default = false }) _lllllIllll:OnChanged( function (Value) _IIlllIlIII = Value end
+ ) _IlllIIllII:OnChanged( function (Value) _IIllllIIll = Value end
+ ) local _lIlIIIllIl = _IIlllIIllI.Main:AddSlider("\083\112\101\101\100\083\108\105\100\101\114", { Title = "\086\101\108\111\099\105\100\097\100\101\032\100\111\032\084\119\101\101\110", Description = "\082\101\099\111\109\101\110\100\097\100\111\032\050\053\045\051\049", Default = 21, Min = 5, Max = 100, Rounding = 0, Callback = function (Value) _lllIlIlIlI = Value end
+ }) local _llIlIlIIll = _IIlllIIllI.Main:AddInput("\083\112\101\101\100\073\110\112\117\116", { Title = "\086\101\108\111\099\105\100\097\100\101\032\077\097\110\117\097\108", Default = "\050\049", Numeric = true, Finished = true, Callback = function (Value) local _IllIIIlllI = tonumber(Value) if _IllIIIlllI and _IllIIIlllI > 0 then _lllIlIlIlI = _IllIIIlllI _lIlIIIllIl:SetValue(math.clamp(_IllIIIlllI, 5, 100)) end
+ end
+ }) local function _lIlIllllII(enable) pcall( function () local _IllllIIlll = _IlIllllIII.Character if _IllllIIlll then local _IIIlIIllll = _IllllIIlll:FindFirstChildOfClass("\072\117\109\097\110\111\105\100") if _IIIlIIllll then local _IIllllllII = _IIIlIIllll:FindFirstChildOfClass("\065\110\105\109\097\116\111\114") if _IIllllllII then if not enable then for _, track in pairs(_IIllllllII:GetPlayingAnimationTracks()) do track:Stop() end
+ end
+ end
+ end
+ local _llIIIIlIII = _IllllIIlll:FindFirstChild("\065\110\105\109\097\116\101") if _llIIIIlIII then _llIIIIlIII.Disabled = not enable end
+ end
+ end
+ ) end
+ RunService.Stepped:Connect( function () if _IlllIIllll then _lIlIllllII(false) end
+ end
+ ) local function _llllIIllII() for _, player in pairs(Players:GetPlayers()) do if player ~= _IlIllllIII then local _IllllIIlll = player.Character if (player:FindFirstChild("\066\097\099\107\112\097\099\107") and player.Backpack:FindFirstChild("\075\110\105\102\101")) or (_IllllIIlll and _IllllIIlll:FindFirstChild("\075\110\105\102\101")) then return player end
  end
  end
  return nil end
- local function CheckBagFullOrEmpty() local isFull = false pcall( function () local leaderstats = LocalPlayer:FindFirstChild("\108\101\097\100\101\114\115\116\097\116\115") if leaderstats then local candiesStat = leaderstats:FindFirstChild("\067\097\110\100\105\101\115") or leaderstats:FindFirstChild("\068\111\099\101\115") or leaderstats:FindFirstChild("\067\111\105\110\115") if candiesStat and candiesStat.Value >= 0x32 then isFull = true end
+ local function _lIllIlllIl() local _IIIIIlIlll = false pcall( function () local _lIIIIllllI = _IlIllllIII:FindFirstChild("\108\101\097\100\101\114\115\116\097\116\115") if _lIIIIllllI then local _llIIIlllll = _lIIIIllllI:FindFirstChild("\067\097\110\100\105\101\115") or _lIIIIllllI:FindFirstChild("\068\111\099\101\115") or _lIIIIllllI:FindFirstChild("\067\111\105\110\115") if _llIIIlllll and _llIIIlllll.Value >= 50 then _IIIIIlIlll = true end
  end
  end
- ) return isFull end
- local isFlinging = false local function TriggerAutoFling() if isFlinging or not AutoFlingAfterEnabled then return end
- isFlinging = true task.spawn( function () local startTime = tick() local connection connection = RunService.Heartbeat:Connect( function () if tick() - startTime >= 0xA then if connection then connection:Disconnect() end
- isFlinging = false return end
- local murder = GetMurdererPlayer() if murder and murder.Character and murder.Character:FindFirstChild("\072\117\109\097\110\111\105\100\082\111\111\116\080\097\114\116") then local character = LocalPlayer.Character if character and character:FindFirstChild("\072\117\109\097\110\111\105\100\082\111\111\116\080\097\114\116") then local rootPart = character.HumanoidRootPart local targetRoot = murder.Character.HumanoidRootPart local velocity = targetRoot.AssemblyLinearVelocity local targetCFrame = targetRoot.CFrame if velocity.Magnitude > 0.1 then targetCFrame = targetCFrame + (velocity.Unit * 0x4) end
- rootPart.CFrame = targetCFrame * CFrame.new(math.random(-0x1, 0x1), 0x0, math.random(-0x1, 0x1)) rootPart.AssemblyLinearVelocity = Vector3.new(0x9C40, 0x9C40, 0x9C40) rootPart.AssemblyAngularVelocity = Vector3.new(0x1869F, 0x1869F, 0x1869F) end
+ ) return _IIIIIlIlll end
+ local function _lIlIlIlIII() local _IllllIIlll = _IlIllllIII.Character if _IllllIIlll and _IllllIIlll:FindFirstChild("\072\117\109\097\110\111\105\100\082\111\111\116\080\097\114\116") then local _IlIlIlIIII = _IllllIIlll.HumanoidRootPart local _llIlIIlIII = _IlIlIlIIII.Position local _IllllIIIII = CFrame.new(_llIlIIlIII + Vector3.new(0, 4, 0)) local _IlIIIlIIll = TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out) local _lIIlIIlIlI = TweenService:Create(_IlIlIlIIII, _IlIIIlIIll, {CFrame = _IllllIIIII}) _lIIlIIlIlI:Play() _lIIlIIlIlI.Completed:Wait() _IlIlIlIIII.AssemblyLinearVelocity = Vector3.zero end
+ end
+ local _IlIlllllll = false local function _IIIlllIIII() if _IlIlllllll or not _IIllllIIll then return end
+ _IlIlllllll = true task.spawn( function () local _lllIIIlIll = tick() local _lIIlIIIlII _lIIlIIIlII = RunService.Heartbeat:Connect( function () if tick() - _lllIIIlIll >= 10 then if _lIIlIIIlII then _lIIlIIIlII:Disconnect() end
+ _IlIlllllll = false return end
+ local _IlllIlIIll = _llllIIllII() if _IlllIlIIll and _IlllIlIIll.Character and _IlllIlIIll.Character:FindFirstChild("\072\117\109\097\110\111\105\100\082\111\111\116\080\097\114\116") then local _IllllIIlll = _IlIllllIII.Character if _IllllIIlll and _IllllIIlll:FindFirstChild("\072\117\109\097\110\111\105\100\082\111\111\116\080\097\114\116") then local _IlIlIlIIII = _IllllIIlll.HumanoidRootPart local _IIlllIlIll = _IlllIlIIll.Character.HumanoidRootPart local _IIllIllIlI = _IIlllIlIll.AssemblyLinearVelocity local _IllllIIIII = _IIlllIlIll.CFrame if _IIllIllIlI.Magnitude > 0.1 then _IllllIIIII = _IllllIIIII + (_IIllIllIlI.Unit * 4) end
+ _IlIlIlIIII.CFrame = _IllllIIIII * CFrame.new(math.random(-1, 1), 0, math.random(-1, 1)) _IlIlIlIIII.AssemblyLinearVelocity = Vector3.new(40000, 40000, 40000) _IlIlIlIIII.AssemblyAngularVelocity = Vector3.new(99999, 99999, 99999) end
  end
  end
  ) end
  ) end
- LocalPlayer.CharacterAdded:Connect( function (character) local humanoid = character:WaitForChild("\072\117\109\097\110\111\105\100", 0x5) if humanoid then humanoid.Died:Connect( function () if AutoCandyRunning or AutoFlingAfterEnabled then TriggerAutoFling() end
+ _IlIllllIII.CharacterAdded:Connect( function (_IllllIIlll) local _IIIlIIllll = _IllllIIlll:WaitForChild("\072\117\109\097\110\111\105\100", 5) if _IIIlIIllll then _IIIlIIllll.Died:Connect( function () _lIlIllllII(true) if _IlllIIllll or _IIllllIIll then _IIIlllIIII() end
  end
  ) end
  end
- ) if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("\072\117\109\097\110\111\105\100") then LocalPlayer.Character.Humanoid.Died:Connect( function () if AutoCandyRunning or AutoFlingAfterEnabled then TriggerAutoFling() end
+ ) if _IlIllllIII.Character and _IlIllllIII.Character:FindFirstChild("\072\117\109\097\110\111\105\100") then _IlIllllIII.Character.Humanoid.Died:Connect( function () _lIlIllllII(true) if _IlllIIllll or _IIllllIIll then _IIIlllIIII() end
  end
  ) end
- ToggleCandy:OnChanged( function (Value) AutoCandyRunning = Value if Value then AntiFlingEnabled = true else AntiFlingEnabled = ToggleFling.Value end
+ _lIllIIIlII:OnChanged( function (Value) _IlllIIllll = Value if Value then _IIlllIlIII = true _lIlIllllII(false) else _IIlllIlIII = _lllllIllll.Value _lIlIllllII(true) local _IllllIIlll = _IlIllllIII.Character if _IllllIIlll and _IllllIIlll:FindFirstChild("\072\117\109\097\110\111\105\100\082\111\111\116\080\097\114\116") then _IllllIIlll.HumanoidRootPart.AssemblyLinearVelocity = Vector3.zero end
  end
- ) local Slider = Tabs.Main:AddSlider("\083\112\101\101\100\083\108\105\100\101\114", { Title = "\086\101\108\111\099\105\100\097\100\101\032\100\111\032\084\119\101\101\110", Description = "\082\101\099\111\109\101\110\100\097\100\111\058\032\050\048\045\051\048", Default = 0x15, Min = 0x5, Max = 0x32, Rounding = 0x0, Callback = function (Value) TweenSpeed = Value end
- }) Tabs.Visuals:AddToggle("\069\115\112\077\117\114\100\101\114\084\111\103\103\108\101", { Title = "\069\115\112\032\077\117\114\100\101\114", Default = false, Callback = function (Value) EspMurderEnabled = Value end
- }) Tabs.Visuals:AddToggle("\069\115\112\083\104\101\114\105\102\102\084\111\103\103\108\101", { Title = "\069\115\112\032\083\104\101\114\105\102\102", Default = false, Callback = function (Value) EspSheriffEnabled = Value end
- }) Tabs.Visuals:AddToggle("\069\115\112\073\110\110\111\099\101\110\116\084\111\103\103\108\101", { Title = "\069\115\112\032\073\110\110\111\099\101\110\116\115", Default = false, Callback = function (Value) EspInnocentEnabled = Value end
- }) local function GetPlayerRole(player) local character = player.Character if not character then return "\073\110\110\111\099\101\110\116" end
+ end
+ ) _IIlllIIllI.Visuals:AddToggle("\069\115\112\077\117\114\100\101\114\084\111\103\103\108\101", { Title = "\069\115\112\032\077\117\114\100\101\114", Default = false, Callback = function (Value) _IIlIIlllIl = Value end
+ }) _IIlllIIllI.Visuals:AddToggle("\069\115\112\083\104\101\114\105\102\102\084\111\103\103\108\101", { Title = "\069\115\112\032\083\104\101\114\105\102\102", Default = false, Callback = function (Value) _IIlllIlIlI = Value end
+ }) _IIlllIIllI.Visuals:AddToggle("\069\115\112\073\110\110\111\099\101\110\116\084\111\103\103\108\101", { Title = "\069\115\112\032\073\110\110\111\099\101\110\116\115", Default = false, Callback = function (Value) _lIlIlllIll = Value end
+ }) local function _llIllIllll(player) local _IllllIIlll = player.Character if not _IllllIIlll then return "\073\110\110\111\099\101\110\116" end
  if player:FindFirstChild("\066\097\099\107\112\097\099\107") and player.Backpack:FindFirstChild("\075\110\105\102\101") then return "\077\117\114\100\101\114\101\114" end
- if character:FindFirstChild("\075\110\105\102\101") then return "\077\117\114\100\101\114\101\114" end
+ if _IllllIIlll:FindFirstChild("\075\110\105\102\101") then return "\077\117\114\100\101\114\101\114" end
  if player:FindFirstChild("\066\097\099\107\112\097\099\107") and player.Backpack:FindFirstChild("\071\117\110") then return "\083\104\101\114\105\102\102" end
- if character:FindFirstChild("\071\117\110") then return "\083\104\101\114\105\102\102" end
+ if _IllllIIlll:FindFirstChild("\071\117\110") then return "\083\104\101\114\105\102\102" end
  return "\073\110\110\111\099\101\110\116" end
- local function ApplyHighlight(player, role) if not player.Character then return end
- local highlight = player.Character:FindFirstChild("\068\114\097\099\111\115\119\069\083\080") local shouldShow = false local color = Color3.fromRGB(0xFF, 0xFF, 0xFF) if role == "\077\117\114\100\101\114\101\114" and EspMurderEnabled then shouldShow = true color = Color3.fromRGB(0xFF, 0x0, 0x0) elseif role == "\083\104\101\114\105\102\102" and EspSheriffEnabled then shouldShow = true color = Color3.fromRGB(0x0, 0x64, 0xFF) elseif role == "\073\110\110\111\099\101\110\116" and EspInnocentEnabled then shouldShow = true color = Color3.fromRGB(0x0, 0xFF, 0x0) end
- if shouldShow then if not highlight then highlight = Instance.new("\072\105\103\104\108\105\103\104\116") highlight.Name = "\068\114\097\099\111\115\119\069\083\080" highlight.Parent = player.Character end
- highlight.FillColor = color highlight.OutlineColor = Color3.fromRGB(0xFF, 0xFF, 0xFF) highlight.FillTransparency = 0.5 highlight.OutlineTransparency = 0x0 highlight.Enabled = true else if highlight then highlight.Enabled = false end
+ local function _lllIIllllI(player, _IIllllIIlI) if not player.Character then return end
+ local _lIIllllIIl = player.Character:FindFirstChild("\068\114\097\099\111\115\119\069\083\080") local _IIIlllIIll = false local _IIlIIIlIII = Color3.fromRGB(255, 255, 255) if _IIllllIIlI == "\077\117\114\100\101\114\101\114" and _IIlIIlllIl then _IIIlllIIll = true _IIlIIIlIII = Color3.fromRGB(255, 0, 0) elseif _IIllllIIlI == "\083\104\101\114\105\102\102" and _IIlllIlIlI then _IIIlllIIll = true _IIlIIIlIII = Color3.fromRGB(0, 100, 255) elseif _IIllllIIlI == "\073\110\110\111\099\101\110\116" and _lIlIlllIll then _IIIlllIIll = true _IIlIIIlIII = Color3.fromRGB(0, 255, 0) end
+ if _IIIlllIIll then if not _lIIllllIIl then _lIIllllIIl = Instance.new("\072\105\103\104\108\105\103\104\116") _lIIllllIIl.Name = "\068\114\097\099\111\115\119\069\083\080" _lIIllllIIl.Parent = player.Character end
+ _lIIllllIIl.FillColor = _IIlIIIlIII _lIIllllIIl.OutlineColor = Color3.fromRGB(255, 255, 255) _lIIllllIIl.FillTransparency = 0.5 _lIIllllIIl.OutlineTransparency = 0 _lIIllllIIl.Enabled = true else if _lIIllllIIl then _lIIllllIIl.Enabled = false end
  end
  end
- task.spawn( function () while true do for _, player in pairs(Players:GetPlayers()) do if player ~= LocalPlayer then pcall( function () local role = GetPlayerRole(player) ApplyHighlight(player, role) end
+ task.spawn( function () while true do for _, player in pairs(Players:GetPlayers()) do if player ~= _IlIllllIII then pcall( function () local _IIllllIIlI = _llIllIllll(player) _lllIIllllI(player, _IIllllIIlI) end
  ) end
  end
  task.wait(0.5) end
  end
- ) local lastFlingCheck = 0x0 RunService.Heartbeat:Connect( function () if not AntiFlingEnabled and not AutoCandyRunning then return end
- local now = tick() if now - lastFlingCheck >= 0.2 then lastFlingCheck = now if AntiFlingEnabled then for _, otherPlayer in pairs(Players:GetPlayers()) do if otherPlayer ~= LocalPlayer and otherPlayer.Character then for _, part in pairs(otherPlayer.Character:GetDescendants()) do if part:IsA("\066\097\115\101\080\097\114\116") and part.CanCollide then part.CanCollide = false end
+ ) local _IlllIlllll = 0 RunService.Heartbeat:Connect( function () if not _IIlllIlIII and not _IlllIIllll then return end
+ local _IlIIIIlIII = tick() if _IlIIIIlIII - _IlllIlllll >= 0.2 then _IlllIlllll = _IlIIIIlIII if _IIlllIlIII then for _, otherPlayer in pairs(Players:GetPlayers()) do if otherPlayer ~= _IlIllllIII and otherPlayer.Character then for _, part in pairs(otherPlayer.Character:GetDescendants()) do if part:IsA("\066\097\115\101\080\097\114\116") and part.CanCollide then part.CanCollide = false end
  end
  end
  end
  end
- if AutoCandyRunning and LocalPlayer.Character then for _, part in pairs(LocalPlayer.Character:GetDescendants()) do if part:IsA("\066\097\115\101\080\097\114\116") and part.CanCollide then part.CanCollide = false end
+ if _IlllIIllll and _IlIllllIII.Character then for _, part in pairs(_IlIllllIII.Character:GetDescendants()) do if part:IsA("\066\097\115\101\080\097\114\116") and part.CanCollide then part.CanCollide = false end
  end
  end
  end
  end
- ) local function IsRealCandy(part) if not part or not part.Parent or not part:IsDescendantOf(workspace) then return false end
- if part:IsA("\066\097\115\101\080\097\114\116") then if part.Transparency >= 0x1 or not part.CanTouch then return false end
+ ) local function _lllllllIlI(part) if not part or not part.Parent or not part:IsDescendantOf(workspace) then return false end
+ if part:IsA("\066\097\115\101\080\097\114\116") then if part.Transparency >= 1 or not part.CanTouch then return false end
  end
  return true end
- local function TeleportToCandy(targetPart) local character = LocalPlayer.Character if not character or not character:FindFirstChild("\072\117\109\097\110\111\105\100\082\111\111\116\080\097\114\116") then return end
- local rootPart = character.HumanoidRootPart if not IsRealCandy(targetPart) then return end
- local distance = (rootPart.Position - targetPart.Position).Magnitude local timeToTravel = distance / TweenSpeed local centerPosition = CFrame.new(targetPart.Position) local tweenInfo = TweenInfo.new(timeToTravel, Enum.EasingStyle.Linear) local tween = TweenService:Create(rootPart, tweenInfo, {CFrame = centerPosition}) tween:Play() while AutoCandyRunning and IsRealCandy(targetPart) do local currentDist = (rootPart.Position - targetPart.Position).Magnitude if currentDist <= 0.2 then break end
+ local function _IlllIllIlI(_IlIlIlIIIl) local _IllllIIlll = _IlIllllIII.Character if not _IllllIIlll or not _IllllIIlll:FindFirstChild("\072\117\109\097\110\111\105\100\082\111\111\116\080\097\114\116") then return end
+ local _IlIlIlIIII = _IllllIIlll.HumanoidRootPart if not _lllllllIlI(_IlIlIlIIIl) then return end
+ local _lIllIIllll = Instance.new("\066\111\100\121\086\101\108\111\099\105\116\121") _lIllIIllll.Name = "\067\097\110\100\121\086\070\108\121" _lIllIIllll.Velocity = Vector3.zero _lIllIIllll.MaxForce = Vector3.new(0, math.huge, 0) _lIllIIllll.Parent = _IlIlIlIIII local _lIIlIIlIIl = (_IlIlIlIIII.Position - _IlIlIlIIIl.Position).Magnitude local _IllIIllIlI = _lIIlIIlIIl / _lllIlIlIlI local _IIlIlIIllI = _IlIlIlIIIl.Position - Vector3.new(0, 2.2, 0) local _IllllIIIII = CFrame.new(_IIlIlIIllI) local _IlIIIlIIll = TweenInfo.new(_IllIIllIlI, Enum.EasingStyle.Linear) local _lIIlIIlIlI = TweenService:Create(_IlIlIlIIII, _IlIIIlIIll, {CFrame = _IllllIIIII}) _lIIlIIlIlI:Play() while _IlllIIllll and _lllllllIlI(_IlIlIlIIIl) do _IlIlIlIIII.AssemblyLinearVelocity = Vector3.zero _IlIlIlIIII.AssemblyAngularVelocity = Vector3.zero local _lIllIIlIII = (_IlIlIlIIII.Position - _IlIlIlIIIl.Position).Magnitude if _lIllIIlIII <= 0.2 then break end
  task.wait() end
- tween:Cancel() end
- local function GetClosestCandies() local character = LocalPlayer.Character if not character or not character:FindFirstChild("\072\117\109\097\110\111\105\100\082\111\111\116\080\097\114\116") then return {} end
- local rootPart = character.HumanoidRootPart local candyList = {} local container = workspace:FindFirstChild("\078\111\114\109\097\108") or workspace for _, obj in pairs(container:GetDescendants()) do local nameLower = obj.Name:lower() if nameLower:find("\099\097\110\100\121") or nameLower:find("\099\111\105\110") then local targetPart = nil if obj:IsA("\066\097\115\101\080\097\114\116") then targetPart = obj elseif obj:IsA("\077\111\100\101\108") then targetPart = obj.PrimaryPart or obj:FindFirstChildWhichIsA("\066\097\115\101\080\097\114\116") end
- if IsRealCandy(targetPart) then local dist = (rootPart.Position - targetPart.Position).Magnitude table.insert(candyList, {Part = targetPart, Distance = dist}) end
+ _lIIlIIlIlI:Cancel() _lIllIIllll:Destroy() _IlIlIlIIII.AssemblyLinearVelocity = Vector3.zero end
+ local function _lIllllIIll() local _IllllIIlll = _IlIllllIII.Character if not _IllllIIlll or not _IllllIIlll:FindFirstChild("\072\117\109\097\110\111\105\100\082\111\111\116\080\097\114\116") then return {} end
+ local _IlIlIlIIII = _IllllIIlll.HumanoidRootPart local _lllIllIlII = {} local _IlIllllIII = workspace:FindFirstChild("\078\111\114\109\097\108") or workspace for _, obj in pairs(_IlIllllIII:GetDescendants()) do local _lIIlIIIIII = obj.Name:lower() if _lIIlIIIIII:find("\099\097\110\100\121") or _lIIlIIIIII:find("\099\111\105\110") then local _IlIlIlIIIl = nil if obj:IsA("\066\097\115\101\080\097\114\116") then _IlIlIlIIIl = obj elseif obj:IsA("\077\111\100\101\108") then _IlIlIlIIIl = obj.PrimaryPart or obj:FindFirstChildWhichIsA("\066\097\115\101\080\097\114\116") end
+ if _lllllllIlI(_IlIlIlIIIl) then local _llllIIlIIl = (_IlIlIlIIII.Position - _IlIlIlIIIl.Position).Magnitude table.insert(_lllIllIlII, {Part = _IlIlIlIIIl, Distance = _llllIIlIIl}) end
  end
  end
- table.sort(candyList, function (a, b) return a.Distance < b.Distance end
- ) return candyList end
- local triggeredFlingForEvent = false task.spawn( function () while true do if AutoCandyRunning then local bagFull = CheckBagFullOrEmpty() local candyList = GetClosestCandies() if bagFull or #candyList == 0x0 then if not triggeredFlingForEvent then triggeredFlingForEvent = true TriggerAutoFling() end
- else triggeredFlingForEvent = false local closest = candyList[0x1] if IsRealCandy(closest.Part) then TeleportToCandy(closest.Part) end
+ table.sort(_lllIllIlII, function (a, b) return a.Distance < b.Distance end
+ ) return _lllIllIlII end
+ local _IlIIIIlIll = false task.spawn( function () while true do if _IlllIIllll then local _lIIllIlIlI = _lIllIlllIl() local _lllIllIlII = _lIllllIIll() if _lIIllIlIlI or #_lllIllIlII == 0 then if not _IlIIIIlIll then _IlIIIIlIll = true _lIlIlIlIII() _lIlIllllII(true) _IIIlllIIII() end
+ else _IlIIIIlIll = false local _lIlIlIIlll = _lllIllIlII[1] if _lllllllIlI(_lIlIlIIlll.Part) then _IlllIllIlI(_lIlIlIIlll.Part) end
  end
- task.wait(0.05) else triggeredFlingForEvent = false task.wait(0.3) end
+ task.wait(0.05) else _IlIIIIlIll = false task.wait(0.3) end
  end
  end
- ) local CoreGui = game:GetService("\067\111\114\101\071\117\105") local FloatingGui = Instance.new("\083\099\114\101\101\110\071\117\105") FloatingGui.Name = "\065\117\116\111\067\097\110\100\121\070\108\111\097\116\105\110\103\066\117\116\116\111\110" FloatingGui.Parent = CoreGui FloatingGui.IgnoreGuiInset = true local CircleButton = Instance.new("\084\101\120\116\066\117\116\116\111\110") CircleButton.Name = "\084\111\103\103\108\101\066\117\116\116\111\110" CircleButton.Size = UDim2.new(0x0, 0x34, 0x0, 0x34) CircleButton.Position = UDim2.new(0x0, 0x19, 0x0, 0xDC) CircleButton.BackgroundColor3 = Color3.fromRGB(0x12, 0x12, 0x12) CircleButton.Text = "" CircleButton.Active = true CircleButton.Draggable = true CircleButton.Parent = FloatingGui local UICorner = Instance.new("\085\073\067\111\114\110\101\114") UICorner.CornerRadius = UDim.new(0x1, 0x0) UICorner.Parent = CircleButton local UIStroke = Instance.new("\085\073\083\116\114\111\107\101") UIStroke.Color = Color3.fromRGB(0x50, 0x50, 0x50) UIStroke.Thickness = 0x2 UIStroke.Parent = CircleButton local ButtonImage = Instance.new("\073\109\097\103\101\076\097\098\101\108") ButtonImage.Name = "\066\117\116\116\111\110\073\109\097\103\101" ButtonImage.Size = UDim2.new(0x1, 0x0, 0x1, 0x0) ButtonImage.Position = UDim2.new(0x0, 0x0, 0x0, 0x0) ButtonImage.BackgroundTransparency = 0x1 ButtonImage.Image = "\114\098\120\097\115\115\101\116\105\100\058\047\047\056\049\048\049\053\048\057\054\053\056\049\048\050\056" ButtonImage.Parent = CircleButton local ImageCorner = Instance.new("\085\073\067\111\114\110\101\114") ImageCorner.CornerRadius = UDim.new(0x1, 0x0) ImageCorner.Parent = ButtonImage CircleButton.MouseButton1Click:Connect( function () Window:Minimize() end
- ) Window:SelectTab(0x1)
+ ) local _IIlIIlIlll = game:GetService("\067\111\114\101\071\117\105") local _IlIllIlIll = Instance.new("\083\099\114\101\101\110\071\117\105") _IlIllIlIll.Name = "\065\117\116\111\067\097\110\100\121\070\108\111\097\116\105\110\103\066\117\116\116\111\110" _IlIllIlIll.Parent = _IIlIIlIlll _IlIllIlIll.IgnoreGuiInset = true local _lIIIIIllII = Instance.new("\084\101\120\116\066\117\116\116\111\110") _lIIIIIllII.Name = "\084\111\103\103\108\101\066\117\116\116\111\110" _lIIIIIllII.Size = UDim2.new(0, 52, 0, 52) _lIIIIIllII.Position = UDim2.new(0, 25, 0, 220) _lIIIIIllII.BackgroundColor3 = Color3.fromRGB(18, 18, 18) _lIIIIIllII.Text = "" _lIIIIIllII.Active = true _lIIIIIllII.Draggable = true _lIIIIIllII.Parent = _IlIllIlIll local _IIIllIllII = Instance.new("\085\073\067\111\114\110\101\114") _IIIllIllII.CornerRadius = UDim.new(1, 0) _IIIllIllII.Parent = _lIIIIIllII local _lIllIlIIII = Instance.new("\085\073\083\116\114\111\107\101") _lIllIlIIII.Color = Color3.fromRGB(80, 80, 80) _lIllIlIIII.Thickness = 2 _lIllIlIIII.Parent = _lIIIIIllII local _IllIlIIlIl = Instance.new("\073\109\097\103\101\076\097\098\101\108") _IllIlIIlIl.Name = "\066\117\116\116\111\110\073\109\097\103\101" _IllIlIIlIl.Size = UDim2.new(1, 0, 1, 0) _IllIlIIlIl.Position = UDim2.new(0, 0, 0, 0) _IllIlIIlIl.BackgroundTransparency = 1 _IllIlIIlIl.Image = "\114\098\120\097\115\115\101\116\105\100\058\047\047\056\049\048\049\053\048\057\054\053\056\049\048\050\056" _IllIlIIlIl.Parent = _lIIIIIllII local _IlllIIlllI = Instance.new("\085\073\067\111\114\110\101\114") _IlllIIlllI.CornerRadius = UDim.new(1, 0) _IlllIIlllI.Parent = _IllIlIIlIl _lIIIIIllII.MouseButton1Click:Connect( function () _IllllIlIlI:Minimize() end
+ ) _IllllIlIlI:SelectTab(1) end
+ )(...)
